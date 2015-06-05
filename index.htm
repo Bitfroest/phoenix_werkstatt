@@ -1,0 +1,160 @@
+<!doctype html>
+<html ng-app="junk">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="description" content="">
+
+<title>Junkyard</title>
+<link href="http://fonts.googleapis.com/css?family=Jura" rel="stylesheet" type="text/css">
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="./css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="./css/noscript.css" rel="stylesheet" type="text/css">
+<link href="./css/custom.css" rel="stylesheet" type="text/css">
+
+
+</head>
+<body>
+<header></header>
+<div class="container" ng-controller="Junkyard">
+	<div class="container">
+		<h1 class="page-header">Junkyard</h1>
+		
+		<h2 class="sub-header">Workshop presence</h2>
+		<div class="row">
+			<div class="col-md-3">
+				<span>
+				<label for="person">Add Person</label>
+				<div class="input-group">
+					<input class="form-control" style="" placeholder="First Last" ng-model="name" ng-change="changedName()" type="text" name="name" id="name"></input>
+					<span class="input-group-btn">
+						<button class="btn btn-success" ng-click="addName()" type="button">Add</button>
+					</span>
+					
+				</div>
+				</span>
+			</div>
+			
+			<div class="col-md-3">
+				<span>
+				<label for="firstname" ng-model="firstname">Firstname</label>
+					<span>{{ firstname }}</span>
+				</span>
+			</div>
+			
+			<div class="col-md-3">
+				<span>
+				<label for="lastname">Lastname</label>
+					<span>{{ lastname }}</span>
+				</span>
+			</div>
+			
+			<div class="col-md-3">
+				<span my-current-time="format"></span>
+			</div>
+		</div>
+		
+		<div class="row voffset3" ng-repeat="person in persons | orderBy:'-onlinetill'">
+			<div class="col-xs-12 col-sm-6 col-md-4 voffset3">
+				<span>
+					<label>{{ person.firstname }} {{ person.lastname }}</label>
+						<span class="label label-success" ng-class="{'active': person.onlinetill - time > 0, 'hide':person.onlinetill - time <= 0}">Online</span>
+				</span>
+				
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-2 voffset3">
+				<span>
+					<label>{{ person.onlinetill | date:'dd.MM HH:mm' }}</label>
+				</span>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-2 voffset3">
+				<span>
+					<label>{{ calc(person) }} min left</label>
+				</span>
+				<a ng-click="nulTime(person)"><i class="fa fa-times fa-lg"></i></a>
+				<span>				
+			</div>
+			
+
+			<div class="col-xs-12 col-sm-6 col-md-4 voffset3">
+				<div class="dropdown">
+				<span>
+				<div class="input-group">
+					<input class="form-control" ng-model="person.setTime" ng-change="" type="text" aria-label="..."></input>
+					<div class="input-group-btn">
+						
+						<button class="btn btn-success" ng-click="addTime(person)" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-check fa-lg"></i></span></button>
+						
+						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+						
+						<ul class="dropdown-menu dropdown-menu-right" role="menu">
+							<li><a ng-click="setTime(person,5)">5 min</a></li>
+							<li><a ng-click="setTime(person,10)">10 min</a></li>
+							<li><a ng-click="setTime(person,30)">30 min</a></li>
+							<li><a ng-click="setTime(person,60)">1 h</a></li>
+							<li><a ng-click="setTime(person,180)">3 h</a></li>
+							<li><a ng-click="setTime(person,360)">6 h</a></li>
+						</ul>
+						
+					</div>
+				</div>	
+				</div>
+				</span>
+			</div>			
+			
+			
+		</div>
+		
+		<div class="row voffset3"> 
+		</div>
+	</div>
+</div>
+<footer class="footer">
+	<div class="container">
+		<p class="text-muted"><a href="http://blog.hk-fs.de/impressum/">© Copyright 2015</a> by Fabian Schurig</p>
+	</div>
+</footer>
+
+
+
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/calc.js"></script>
+<script type="text/javascript" src="js/ui-bootstrap.min.js"></script>
+<script type="text/javascript" src="Junkyard.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//hk-fs.de/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 3]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//hk-fs.de/piwik/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+<noscript>
+<!-- Piwik Image Tracker-->
+<img src="http://hk-fs.de/piwik/piwik.php?idsite=3&rec=1" style="border:0" alt="" />
+<!-- End Piwik -->
+</noscript>
+<!-- End Piwik Code -->
+
+
+</body>
+</html>
